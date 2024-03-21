@@ -3,6 +3,7 @@ from tempfile import NamedTemporaryFile
 import fitz  # PyMuPDF
 from fastapi.middleware.cors import CORSMiddleware
 import sqlite3
+import uvicorn
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
@@ -159,3 +160,6 @@ def get_all_pdfs():
 @app.get("/pdfs/", response_model=list[dict])
 async def get_all_pdfs_endpoint():
     return get_all_pdfs()
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
