@@ -1,0 +1,10 @@
+fastapi 
+uvicorn[standard]
+sqlite3
+faiss-cpu
+google-ai-generativelanguage
+langchain
+langchain-google-genai
+PyMuPDF
+python-dotenv              
+python-multipart        
