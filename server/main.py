@@ -42,12 +42,13 @@ create_tables()
 # Allow all origins for simplicity, but you should restrict this to your frontend URL in production
 origins = [
     "https://generative-ai-kappa.vercel.app/",
-    "http://127.0.0.1:8000/upload-pdf/"
+    "http://127.0.0.1:8000/upload-pdf/",
+    "https://generative-ai-kappa.vercel.app"
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],  # Allow requests from all origins
     allow_credentials=True,
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
