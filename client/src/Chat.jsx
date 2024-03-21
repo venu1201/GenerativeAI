@@ -19,7 +19,7 @@ function Chat({ settoggle }) {
   useEffect(() => {
     const fetchChats = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/chat/${id}`);
+        const response = await axios.get(`https://generativeai-1.onrender.com//chat/${id}`);
         if (!response.data) {
 
           throw new Error('Failed to get previous chats');
@@ -51,7 +51,7 @@ function Chat({ settoggle }) {
     setIsTyping(true);
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/query/', { user_question: currentQuestion, pdf_id: id });
+      const response = await axios.post('https://generativeai-1.onrender.com//query/', { user_question: currentQuestion, pdf_id: id });
 
       if (!response.data || !response.data.answer) {
         throw new Error('Failed to get answer');
