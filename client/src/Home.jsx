@@ -6,10 +6,13 @@ import { useDropzone } from 'react-dropzone';
 import img_file from './assets/file-upload.svg'
 import pdf_logo from './assets/pdflogo.png'
 import logo from './assets/logoo.jpeg'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import LoadingSpinner from './Spinner'
 function Home({ settoggle, setuploaded }) {
     const [file, setFile] = useState(null);
     const [error, setError] = useState('');
+    const [loading,setloading]=useState(false);
     const navigate = useNavigate();
    
 
@@ -18,13 +21,14 @@ function Home({ settoggle, setuploaded }) {
             setError('Please select a file');
             return;
         }
-
+        setloading(true);
         const formData = new FormData();
         formData.append('file', file);
-
+        
         try {
             const response = await axios.post('https://generativeai-1.onrender.com/upload-pdf', formData);
             settoggle(false)
+            setloading(false);
             console.log("falseed")
             setuploaded((prev) => prev + 1)
             navigate(`/${response.data.filename}/${response.data.pdf_id}`)
@@ -34,6 +38,17 @@ function Home({ settoggle, setuploaded }) {
 
             setError('');
         } catch (error) {
+            setloading(false);
+            toast.error('Error uploading file', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: 0,
+                theme: "colored",
+            });
             console.error('Error uploading file:', error);
             setError('An error occurred while uploading the file');
         }
@@ -41,9 +56,23 @@ function Home({ settoggle, setuploaded }) {
     const handleDrop = async (acceptedFiles) => {
         const pdfFile = acceptedFiles[0];
         if (pdfFile) {
-            setFile(pdfFile);
+            if (pdfFile.type !== 'application/pdf') {
+                toast.error('Please drop a PDF file', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: 0,
+                    theme: "colored",
+                });
+            } else {
+                setFile(pdfFile);
+            }
         }
     };
+    
     const handleCancel= ()=>{
         setFile(null)
     }
@@ -55,6 +84,18 @@ function Home({ settoggle, setuploaded }) {
 
     return (
         <div className='bg-slate-200 w-screen h-screen overflow-hidden'>
+        <ToastContainer
+                position="top-right"
+                autoClose={4000}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
             <div className='w-full h-[60px] flex justify-between px-5 py-2 items-center bg-white shadow-md '>
                 <div className='flex w-[50%] justify-between gap-2'>
                     <div onClick={() => settoggle((prev) => !prev)} className='flex cursor-pointer justify-center border-2 px-2  items-center text-[25px]'>
@@ -119,9 +160,16 @@ function Home({ settoggle, setuploaded }) {
                                         {file?.name}
                                     </h3>
                                     <div className='w-full flex gap-3 justify-center mt-4'>
-                                        <button onClick={() => handleSubmit()} type="button" className=" bg-slate-800 text-white p-3 rounded-md w-[100px]">
+                                        {loading ===true? (
+                                            <button type="button" className=" bg-slate-800 text-white p-3 rounded-md flex justify-center items-center w-[100px]">
+                                                <LoadingSpinner/>
+                                            </button>
+                                        ):(
+                                            <button onClick={() => handleSubmit()} type="button" className=" bg-slate-800 text-white p-3 rounded-md w-[100px]">
                                             Upload
                                         </button>
+                                        )}
+                                        
                                         <button onClick={() => handleCancel()} type='button' className=" bg-red-500 text-white p-3 rounded-md w-[100px]">
                                             Cancel
                                         </button>

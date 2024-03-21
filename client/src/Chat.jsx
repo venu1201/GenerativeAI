@@ -8,6 +8,8 @@ import ai_image from './assets/download.jpg'
 import user_image from './assets/icon-256x256.png'
 import pdf_logo from './assets/pdflogo.png'
 import logo from './assets/logoo.jpeg'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Chat({ settoggle }) {
   const { filename, id } = useParams();

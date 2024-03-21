@@ -4,23 +4,27 @@ import { AiOutlineCloseSquare } from "react-icons/ai";
 import pdf_logo from './assets/pdflogo.png'
 import { AiOutlineHistory } from "react-icons/ai";
 import logo from './assets/logoo.jpeg'
-
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
+import LoadingSpinner from './Spinner';
 const Layout = ({toggle,settoggle,uploaded}) => {
     const [Allpdfs,setAllpdfs]=useState([])
     const navigate=useNavigate();
     const {id,filename}=useParams();
-    
+    const [loading,setloading]=useState(false);
     useEffect(() => {
         const Fetchpdfs = async () => {
+            setloading(true)
             try {
                 const response = await axios.get(`https://generativeai-1.onrender.com/pdfs/`);
                 if (!response.data) {
                     throw new Error('Failed to get previous chats');
                 }
                 setAllpdfs(response.data)
+                setloading(false);
             } catch (error) {
                 console.error('Error fetching chats:', error);
+                setloading(false);
+
               
             }
         };
@@ -39,10 +43,15 @@ const Layout = ({toggle,settoggle,uploaded}) => {
                 <h2 className='text-white flex justify-center gap-3 items-center text-[25px] font-bold'>
                 <AiOutlineHistory />
                 <div>
-                HISTORY
-                    </div> 
+                    HISTORY
+                </div> 
                 </h2>
                 <div className='text-white w-[90%] gap-3 flex flex-col overflow-scroll mt-2 h-[calc(100%-55px)] '>
+                    {Allpdfs.length===0 && (
+                        <div className='w-full h-[50px] flex justify-center items-center'>
+                            Create New Chat !
+                        </div>
+                    )}
                     {Allpdfs.map((item, index) => (
                         <div onClick={()=>navigate(`/${item.filename}/${item.pdf_id}`)} key={item.pdf_id} className={`w-full cursor-pointer px-3 py-4 ${filename===item.filename && id==item.pdf_id?"bg-blue-500":"bg-slate-700"} flex items-center gap-3 h-[40px]`}>
                             <div>
