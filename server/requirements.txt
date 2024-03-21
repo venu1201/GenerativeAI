@@ -6,4 +6,4 @@ langchain
 langchain-google-genai
 PyMuPDF
 python-dotenv              
-python-multipart        
+      
