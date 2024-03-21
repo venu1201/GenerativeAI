@@ -1,6 +1,5 @@
 fastapi 
 uvicorn[standard]
-sqlite3
 faiss-cpu
 google-ai-generativelanguage
 langchain
