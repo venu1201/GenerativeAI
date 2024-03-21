@@ -24,7 +24,6 @@ app = FastAPI()
 conn = sqlite3.connect('database1.db')
 cursor = conn.cursor()
 def create_tables():
-    # Create table for storing PDFs
     cursor.execute('''CREATE TABLE IF NOT EXISTS pdfs (
                         id INTEGER PRIMARY KEY,
                         filename TEXT NOT NULL,
@@ -39,7 +38,6 @@ def create_tables():
                     )''')
     conn.commit()
 create_tables()
-# Allow all origins for simplicity, but you should restrict this to your frontend URL in production
 origins = [
     "https://generative-ai-kappa.vercel.app/",
     "http://127.0.0.1:8000/upload-pdf/",
@@ -48,7 +46,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow requests from all origins
+    allow_origins=["*"],  
     allow_credentials=True,
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
