@@ -21,7 +21,7 @@ genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 app = FastAPI()
 
 
-conn = sqlite3.connect('database1.db')
+conn = sqlite3.connect('genaidb.db')
 cursor = conn.cursor()
 def create_tables():
     cursor.execute('''CREATE TABLE IF NOT EXISTS pdfs (
