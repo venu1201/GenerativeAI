@@ -41,7 +41,7 @@ def create_tables():
 create_tables()
 # Allow all origins for simplicity, but you should restrict this to your frontend URL in production
 origins = [
-    "http://127.0.0.1:5173",
+    "https://generative-ai-kappa.vercel.app/",
     "http://127.0.0.1:8000/upload-pdf/"
 ]
 
