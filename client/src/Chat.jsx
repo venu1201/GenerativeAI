@@ -44,8 +44,6 @@ function Chat({ settoggle }) {
       setError('Please enter a question');
       return;
     }
-
-    // Update UI with the question immediately
     setQuestions([...questions, currentQuestion]);
     setCurrentQuestion('');
     setIsTyping(true);
@@ -58,15 +56,14 @@ function Chat({ settoggle }) {
       }
 
       setTimeout(() => {
-        // Update answers array with the loaded answer
         setAnswers([...answers, response.data.answer]);
-        setIsTyping(false); // Set AI typing state to false
+        setIsTyping(false); 
       }, 1500);
       setError('');
     } catch (error) {
       console.error('Error getting answer:', error);
       setError('An error occurred while getting the answer');
-      setIsTyping(false); // Set AI typing state to false
+      setIsTyping(false); 
 
     }
   };
