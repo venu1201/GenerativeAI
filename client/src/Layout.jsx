@@ -14,7 +14,7 @@ const Layout = ({toggle,settoggle,uploaded}) => {
     useEffect(() => {
         const Fetchpdfs = async () => {
             try {
-                const response = await axios.get(`https://generativeai-1.onrender.com//pdfs/`);
+                const response = await axios.get(`https://generativeai-1.onrender.com/pdfs/`);
                 if (!response.data) {
                     throw new Error('Failed to get previous chats');
                 }
